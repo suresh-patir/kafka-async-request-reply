@@ -12,5 +12,8 @@ import lombok.NoArgsConstructor;
 public class CustomerRequest {
 
     @NotNull
+    private Integer customerId;
+
+    @NotNull
     private Integer orderNumber;
 }
