@@ -1,8 +1,8 @@
 package com.example.assignment.services;
 
 
-import com.example.assignment.DTO.CustomerRequest;
-import com.example.assignment.DTO.OrderStatus;
+import io.confluent.examples.clients.basicavro.CustomerRequest;
+import io.confluent.examples.clients.basicavro.OrderStatus;
 import org.springframework.stereotype.Service;
 
 @Service

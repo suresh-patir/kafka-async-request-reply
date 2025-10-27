@@ -1,8 +1,8 @@
 package com.example.assignment.services;
 
 
-import com.example.assignment.DTO.CustomerRequest;
-import com.example.assignment.DTO.OrderStatus;
+import io.confluent.examples.clients.basicavro.CustomerRequest;
+import io.confluent.examples.clients.basicavro.OrderStatus;
 import jakarta.validation.Valid;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.Duration;
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 

@@ -1,0 +1,14 @@
+{
+  "name": "student-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "database.hostname": "0.0.0.0",
+    "database.port": "5435",
+    "database.user": "postgres",
+    "database.password": "postgres",
+    "database.dbname" : "postgres",
+    "topic.prefix": "dbserver1",
+    "plugin.name": "pgoutput"
+  }
+}

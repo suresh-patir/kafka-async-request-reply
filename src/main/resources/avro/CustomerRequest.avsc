@@ -1,0 +1,9 @@
+{
+ "namespace": "io.confluent.examples.clients.basicavro",
+ "type": "record",
+ "name": "CustomerRequest",
+ "fields": [
+     {"name": "customerId", "type": "string"},
+     {"name": "orderNumber", "type": "int"}
+ ]
+}

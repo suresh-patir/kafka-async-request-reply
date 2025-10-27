@@ -1,8 +1,12 @@
 package com.example.assignment.config;
 
 
-import com.example.assignment.DTO.CustomerRequest;
-import com.example.assignment.DTO.OrderStatus;
+import io.confluent.examples.clients.basicavro.CustomerRequest;
+import io.confluent.examples.clients.basicavro.OrderStatus;
+import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
+import io.confluent.kafka.serializers.KafkaAvroDeserializer;
+import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
+import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -19,7 +23,6 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +55,8 @@ public class KafkaConfig {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class);
+        configProps.put("schema.registry.url", "http://localhost:8082");
         return configProps;
     }
 
@@ -66,14 +70,16 @@ public class KafkaConfig {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class);
         configProps.put(ConsumerConfig.GROUP_ID_CONFIG, "request-reply-group");
         configProps.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        configProps.put("schema.registry.url", "http://localhost:8082");
+        configProps.put("specific.avro.reader", true);
         return configProps;
     }
     @Bean
     public ConsumerFactory<String, OrderStatus> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(consumerConfig(),new StringDeserializer(),new JsonDeserializer<>());
+        return new DefaultKafkaConsumerFactory<>(consumerConfig());
     }
 
     @Bean
