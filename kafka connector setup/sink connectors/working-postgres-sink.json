@@ -1,0 +1,22 @@
+{
+  "name": "jdbc-sink-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+    "topics": "request-topic-new",
+    "connection.url": "jdbc:postgresql://127.0.0.1:5435/postgres",
+    "connection.user": "postgres",
+    "connection.password": "postgres",
+    "connection.ds.pool.size": 5,
+    "table.name.format": "customer_requests",
+    "auto.create": "true",
+    "insert.mode": "insert",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "pk.mode": "none",
+    "fields.whitelist": "value",
+    "transforms": "Wrap",
+    "transforms.Wrap.type": "org.apache.kafka.connect.transforms.HoistField$Value",
+    "transforms.Wrap.field": "value"
+  }
+}

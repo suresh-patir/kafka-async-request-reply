@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.Duration;
+import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -32,7 +34,9 @@ public class CustomerService {
     private ReplyingKafkaTemplate<String, CustomerRequest, OrderStatus> replyingKafkaTemplate;
 
     public OrderStatus sendRequestAndGetStatus(@Valid @RequestBody CustomerRequest customerRequest) throws ExecutionException, InterruptedException {
-        ProducerRecord<String, CustomerRequest> producerRecord = new ProducerRecord<>(requestTopic, customerRequest);
+
+        String key = UUID.randomUUID().toString();
+        ProducerRecord<String, CustomerRequest> producerRecord = new ProducerRecord<>(requestTopic, key, customerRequest);
 
         producerRecord.headers().add(new RecordHeader(KafkaHeaders.REPLY_TOPIC, requestReplyTopic.getBytes()));
 
